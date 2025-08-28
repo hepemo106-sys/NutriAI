@@ -36,4 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("btnSignup").addEventListener("click", signup);
     document.getElementById("btnLogin").addEventListener("click", login);
 });
+window.signup = signup;
+window.login = login;
 window.logout = logout;
+
