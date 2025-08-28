@@ -1,37 +1,51 @@
-// auth.js - EasyMeal completo
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-// --- Configuración de Supabase ---
+// --- Configuración Supabase ---
 const SUPABASE_URL = "https://mrvjwygpojzljcnochnt.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ydmp3eWdwb2p6bGpjbm9jaG50Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzNzEwMDEsImV4cCI6MjA3MTk0NzAwMX0.EFZmDNwtVvbJUd70IVZ8WervvroFHd0FsE47afqV-tE";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// --- Función de registro ---
+// --- Crear cuenta ---
 async function signup() {
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
+    const fullName = document.getElementById("fullName").value.trim();
+    const dob = document.getElementById("dob").value;
+    const email = document.getElementById("emailReg").value.trim();
+    const password = document.getElementById("passwordReg").value.trim();
 
-    if (!email || !password) {
-        alert("Debes poner email y contraseña.");
+    if (!fullName || !dob || !email || !password) {
+        alert("Completa todos los campos.");
         return;
     }
 
+    // Crear usuario en auth
     const { data, error } = await supabase.auth.signUp({ email, password });
 
     if (error) {
         alert("Error al registrarte: " + error.message);
-    } else {
-        alert("Cuenta creada con éxito. Por favor inicia sesión.");
-        document.getElementById("email").value = "";
-        document.getElementById("password").value = "";
+        return;
     }
+
+    // Crear perfil en tabla 'profiles'
+    const userId = data.user.id;
+    const { error: profileError } = await supabase.from('profiles').insert([{
+        id: userId,
+        full_name: fullName,
+        date_of_birth: dob
+    }]);
+
+    if (profileError) {
+        alert("Error al crear perfil: " + profileError.message);
+        return;
+    }
+
+    alert("Cuenta creada con éxito. Ahora inicia sesión.");
 }
 
-// --- Función de inicio de sesión ---
+// --- Login ---
 async function login() {
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
+    const email = document.getElementById("emailLogin").value.trim();
+    const password = document.getElementById("passwordLogin").value.trim();
 
     if (!email || !password) {
         alert("Debes poner email y contraseña.");
@@ -47,19 +61,14 @@ async function login() {
     }
 }
 
-// --- Función de cierre de sesión ---
+// --- Logout ---
 async function logout() {
     const { error } = await supabase.auth.signOut();
-    if (error) {
-        alert("Error al cerrar sesión: " + error.message);
-    } else {
-        window.location.href = "index.html";
-    }
+    if (error) alert("Error al cerrar sesión: " + error.message);
+    else window.location.href = "index.html";
 }
 
-// --- Exportar funciones al HTML ---
+// Exportar funciones
 window.signup = signup;
 window.login = login;
 window.logout = logout;
-
-}
