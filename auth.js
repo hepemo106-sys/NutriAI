@@ -3,7 +3,7 @@ const SUPABASE_URL = "https://mrvjwygpojzljcnochnt.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ydmp3eWdwb2p6bGpjbm9jaG50Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzNzEwMDEsImV4cCI6MjA3MTk0NzAwMX0.EFZmDNwtVvbJUd70IVZ8WervvroFHd0FsE47afqV-tE";
 
 // Crear cliente Supabase (correcto para navegador)
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Función para crear cuenta
 async function signup() {
