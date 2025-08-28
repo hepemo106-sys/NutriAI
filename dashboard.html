@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyMeal - Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🍎 EasyMeal</h1>
+    <button onclick="toggleTheme()">🌙/☀️</button>
+    <button onclick="logout()">Salir</button>
+  </header>
+
+  <main>
+    <section class="upload">
+      <h2>Sube tu comida</h2>
+      <input type="file" id="foodImage">
+      <input type="text" id="foodName" placeholder="Nombre del plato">
+      <button onclick="addMeal()">Guardar comida</button>
+    </section>
+
+    <section class="history">
+      <h2>Historial diario</h2>
+      <ul id="mealHistory"></ul>
+    </section>
+
+    <section class="summary">
+      <h2>Resumen de hoy</h2>
+      <p id="summaryText">Cargando...</p>
+    </section>
+  </main>
+
+  <script src="js/dashboard.js"></script>
+  <script src="js/api.js"></script>
+</body>
+</html>
