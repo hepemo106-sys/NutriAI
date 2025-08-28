@@ -32,6 +32,8 @@ async function logout() {
     else window.location.href = "index.html";
 }
 
-window.signup = signup;
-window.login = login;
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("btnSignup").addEventListener("click", signup);
+    document.getElementById("btnLogin").addEventListener("click", login);
+});
 window.logout = logout;
