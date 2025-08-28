@@ -12,9 +12,12 @@ async function loadUser() {
     document.getElementById("welcomeText").innerText = "Bienvenido, " + profile.full_name + "!";
 }
 
-loadUser();
-window.logout = async function() {
-    const { error } = await supabase.auth.signOut();
-    if (error) alert("Error al cerrar sesión: " + error.message);
-    else window.location.href = "index.html";
-};
+document.addEventListener("DOMContentLoaded", () => {
+    loadUser();
+    document.getElementById("btnLogout").addEventListener("click", async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) alert("Error al cerrar sesión: " + error.message);
+        else window.location.href = "index.html";
+    });
+});
+
